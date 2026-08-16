@@ -28,6 +28,8 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
+        id: playwright
+        continue-on-error: true
         run: npx playwright test
 
       - name: Upload Playwright report
@@ -43,13 +45,100 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          if [ "${{ job.status }}" = "success" ]; then
-            STATUS="PASSED"
-          else
-            STATUS="FAILED"
-          fi
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
 
-          curl -X POST \
-            -H "Content-Type: application/json" \
-            --data "{\"text\":\"Playwright CI\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\nResult: ${STATUS}\nCommit: ${{ github.sha }}\nRun: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
-            "$SLACK_WEBHOOK_URL"
+          with open(
+              "test-results/slack-summary.json",
+              encoding="utf-8"
+          ) as file:
+              data = json.load(file)
+
+          browsers = data["browsers"]
+
+          total = 0
+          passed = 0
+          failed = 0
+          skipped = 0
+
+          for stats in browsers.values():
+              total += stats["total"]
+              passed += stats["passed"]
+              failed += stats["failed"]
+              skipped += stats["skipped"]
+
+          if data["status"] == "passed":
+              result_icon = "✅"
+              result_text = "PASSED"
+          else:
+              result_icon = "❌"
+              result_text = "FAILED"
+
+          browser_lines = []
+
+          for browser, stats in browsers.items():
+              browser_lines.append(
+                  f'{browser}: '
+                  f'{stats["passed"]}/{stats["total"]} PASSED'
+              )
+
+          failed_lines = []
+
+          for test in data["failedTests"]:
+              failed_lines.append(
+                  f'❌ {test["title"]} '
+                  f'({test["browser"]})'
+              )
+
+          if not failed_lines:
+              failed_section = "없음"
+          else:
+              failed_section = "\n".join(failed_lines)
+
+          commit = os.environ["GITHUB_SHA"][:7]
+
+          run_url = (
+              f'{os.environ["GITHUB_SERVER_URL"]}/'
+              f'{os.environ["GITHUB_REPOSITORY"]}/'
+              f'actions/runs/'
+              f'{os.environ["GITHUB_RUN_ID"]}'
+          )
+
+          message = (
+              f'{result_icon} *Playwright CI {result_text}*\n\n'
+              f'*Test Summary*\n'
+              f'Total: {total}\n'
+              f'Passed: {passed}\n'
+              f'Failed: {failed}\n'
+              f'Skipped: {skipped}\n\n'
+              f'*Browser*\n'
+              + "\n".join(browser_lines)
+              + '\n\n'
+              f'*Failed Tests*\n'
+              f'{failed_section}\n\n'
+              f'*Branch:* {os.environ["GITHUB_REF_NAME"]}\n'
+              f'*Commit:* `{commit}`\n\n'
+              f'<{run_url}|View GitHub Actions>'
+          )
+
+          payload = json.dumps({
+              "text": message
+          }).encode("utf-8")
+
+          request = urllib.request.Request(
+              os.environ["SLACK_WEBHOOK_URL"],
+              data=payload,
+              headers={
+                  "Content-Type": "application/json"
+              },
+              method="POST"
+          )
+
+          with urllib.request.urlopen(request) as response:
+              print(response.read().decode())
+
+      - name: Fail workflow if Playwright tests failed
+        if: steps.playwright.outcome == 'failure'
+        run: exit 1
