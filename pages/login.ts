@@ -19,7 +19,7 @@ export class LoginPage {
   // Actions
 
   async goto() {
-    await this.page.goto('https://www.saucdemo.com/');
+    await this.page.goto('https://www.saucedemo.com/');
   }
   async enterUsername(username: string) {
     await this.usernameInput.fill(username);

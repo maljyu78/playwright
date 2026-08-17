@@ -15,7 +15,7 @@ test.describe('로그인 기능', () => {
       loginData.standardUser.password
     );
 
-    await expect(page).toHaveURL('https://www.saucdemo.com/inventory.html');
+    await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
   });
 
 
@@ -29,7 +29,7 @@ test.describe('로그인 기능', () => {
       loginData.WrongPW.password
     );
 
-    await expect(page).toHaveURL('https://www.saucdemo.com/login.html');
+    await expect(page).toHaveURL('https://www.saucedemo.com/login.html');
   });
 
 });
