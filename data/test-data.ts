@@ -4,7 +4,7 @@ export const loginData = {
     password: 'secret_sauce',
   },
 
-  wrong_PW: {
+  WrongPW: {
     username: 'standard_user',
     password: 'wrong_password',
   },
