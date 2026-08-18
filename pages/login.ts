@@ -5,15 +5,17 @@ export class LoginPage {
   // Locators
   readonly usernameInput: Locator;
   readonly passwordInput: Locator;
-  readonly loginButton: Locator;
-  readonly errorMessage: Locator;
+  readonly loginBtn: Locator;
+  readonly errorMsg: Locator;
+  readonly errorCloseBtn: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.usernameInput = page.locator('#username');
+    this.usernameInput = page.locator('#user-name');
     this.passwordInput = page.locator('#password');
-    this.loginButton = page.getByRole('button', { name: 'Login' });
-    this.errorMessage = page.locator('[data-test="error"]');
+    this.loginBtn = page.getByRole('button', { name: 'Login' });
+    this.errorMsg = page.locator('[data-test="error"]');
+    this.errorCloseBtn = page.locator('.error-button');
   }
 
   // Actions
@@ -28,15 +30,16 @@ export class LoginPage {
     await this.passwordInput.fill(password);
   }
   async clickLogin() {
-    await this.loginButton.click();
+    await this.loginBtn.click();
   }
   async login(username: string, password: string) {
     await this.enterUsername(username);
     await this.enterPassword(password);
     await this.clickLogin();
   }
-
-  async getErrorMessage(message: string) {
-    await expect(this.errorMessage).toContainText(message);
+  async errorCloseBtnClick() {
+    await this.errorCloseBtn.waitFor({ state: 'visible' });
+    await this.errorCloseBtn.click();
   }
+
 }

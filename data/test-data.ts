@@ -4,10 +4,16 @@ export const loginData = {
     password: 'secret_sauce',
   },
 
-  WrongPW: {
+  invalidPassword: {
     username: 'standard_user',
     password: 'wrong_password',
   },
+
+  invalidUsername: {
+    username: 'wrong_username',
+    password: 'secret_sauce',
+  },
+
 };
 
 export const productData = {
@@ -15,3 +21,8 @@ export const productData = {
   bikeLight: 'Sauce Labs Bike Light',
   boltTShirt: 'Sauce Labs Bolt T-Shirt',
 };
+
+export const errorContent = {
+  invalidCredentials: 'Epic sadface: Username and password do not match any user in this service',
+};
+
