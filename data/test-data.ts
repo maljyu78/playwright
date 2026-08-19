@@ -1,6 +1,6 @@
 export const urlData = {
   loginPage: 'https://www.saucedemo.com/',
-  shoppingPage: 'https://www.saucedemo.com/inventory.html',
+  productPage: 'https://www.saucedemo.com/inventory.html',
 };
 
 export const loginData = {

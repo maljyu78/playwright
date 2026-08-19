@@ -32,8 +32,6 @@ export class productPage {
     await this.page.waitForURL(urlData.productPage);
   }
 
-
-
   async addToCart(productName: string) {
     const product = this.productItem.filter({ hasText: productName });
     await product.locator('.btn_inventory').click();
