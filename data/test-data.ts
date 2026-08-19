@@ -1,3 +1,8 @@
+export const urlData = {
+  loginPage: 'https://www.saucedemo.com/',
+  shoppingPage: 'https://www.saucedemo.com/inventory.html',
+};
+
 export const loginData = {
   standardUser: {
     username: 'standard_user',
@@ -16,10 +21,18 @@ export const loginData = {
 
 };
 
+export const titleData = {
+  loginPageTitle: 'Swag Labs',
+  shoppingPageTitle: 'Products',
+};
+
 export const productData = {
   backpack: 'Sauce Labs Backpack',
   bikeLight: 'Sauce Labs Bike Light',
   boltTShirt: 'Sauce Labs Bolt T-Shirt',
+  fleeceJacket: 'Sauce Labs Fleece Jacket',
+  onesie: 'Sauce Labs Onesie',
+  redTShirt: 'Test.allTheThings() T-Shirt (Red)',
 };
 
 export const errorContent = {

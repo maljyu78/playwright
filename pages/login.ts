@@ -1,4 +1,5 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
+import { urlData } from '../data/test-data';
 
 export class LoginPage {
   readonly page: Page;
@@ -21,8 +22,9 @@ export class LoginPage {
   // Actions
 
   async goto() {
-    await this.page.goto('https://www.saucedemo.com/');
+    await this.page.goto(urlData.loginPage);
   }
+
   async enterUsername(username: string) {
     await this.usernameInput.fill(username);
   }
@@ -32,11 +34,13 @@ export class LoginPage {
   async clickLogin() {
     await this.loginBtn.click();
   }
+
   async login(username: string, password: string) {
     await this.enterUsername(username);
     await this.enterPassword(password);
     await this.clickLogin();
   }
+
   async errorCloseBtnClick() {
     await this.errorCloseBtn.waitFor({ state: 'visible' });
     await this.errorCloseBtn.click();

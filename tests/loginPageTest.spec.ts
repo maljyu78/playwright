@@ -1,21 +1,22 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login';
-import { loginData, productData, errorContent } from '../data/test-data';
+import { urlData, loginData, errorContent } from '../data/test-data';
 
 test.describe('로그인 기능', () => {
 
-  test('TCID_001_정상로그인', async ({ page }) => {
+  test('TCID_001_정상 로그인', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
     await loginPage.goto();
+
     await loginPage.login(
       loginData.standardUser.username,
       loginData.standardUser.password
     );
-    await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+    await expect(page).toHaveURL(urlData.productPage);
   });
 
-  test('TCID_002_잘못된아이디로그인', async ({ page }) => {
+  test('TCID_002_잘못된 아이디 로그인', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
     await loginPage.goto();
@@ -27,7 +28,7 @@ test.describe('로그인 기능', () => {
     await expect(loginPage.errorMsg).toContainText(errorContent.invalidCredentials);
   });
 
-  test('TCID_003_잘못된비밀번호로그인', async ({ page }) => {
+  test('TCID_003_잘못된 비밀번호 로그인', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
     await loginPage.goto();
@@ -43,6 +44,7 @@ test.describe('로그인 기능', () => {
     const loginPage = new LoginPage(page);
 
     await loginPage.goto();
+
     await loginPage.login(
       loginData.invalidPassword.username,
       loginData.invalidPassword.password
@@ -50,4 +52,5 @@ test.describe('로그인 기능', () => {
     await loginPage.errorCloseBtnClick();
     await expect(loginPage.errorMsg).toBeHidden();
   });
+
 });
