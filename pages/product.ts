@@ -1,40 +1,39 @@
 import { type Locator, type Page } from '@playwright/test';
-import { LoginPage } from './login';
-import { urlData, loginData } from '../data/test-data';
+import { BasePage } from './base';
 
-export class productPage {
-  readonly page: Page;
+export class productPage extends BasePage {
   // Locators
+
   readonly pageTitle: Locator;
   readonly productItem: Locator;
-  readonly addCartBtn: Locator;
   readonly cartBadge: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
     this.pageTitle = page.locator('.title');
     this.productItem = page.locator('.inventory_item');
-    this.addCartBtn = page.locator('.btn_inventory');
     this.cartBadge = page.locator('.shopping_cart_badge');
   }
 
 
-// Actions
-  async gotoProductPage() {
-    const loginPage = new LoginPage(this.page);
-
-    await loginPage.goto();
-
-    await loginPage.login(
-      loginData.standardUser.username,
-      loginData.standardUser.password
-    );
-    await this.page.waitForURL(urlData.productPage);
+  // Actions
+  async gotoCart() {
+    await this.cartBadge.click();
   }
 
-  async addToCart(productName: string) {
-    const product = this.productItem.filter({ hasText: productName });
-    await product.locator('.btn_inventory').click();
+  async gotoDetailPage(pageId : string) {
+    const productNameLnk = this.page.locator(`[data-test = "item-${pageId}-title-link"]`);
+    await productNameLnk.click();
+  }
+
+  async addToCart(productId : string) {
+    const addCartBtn = this.page.locator(`[data-test = "add-to-cart-${productId}"]`);
+    await addCartBtn.click();
+  }
+
+  async rmFromCart(productId : string) {
+    const rmCartBtn = this.page.locator(`[data-test = "remove-${productId}"]`);
+    await rmCartBtn.click();
   }
 
 }

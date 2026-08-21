@@ -1,8 +1,7 @@
 import { type Locator, type Page } from '@playwright/test';
-import { urlData } from '../data/test-data';
+import { BasePage } from './base';
 
-export class LoginPage {
-  readonly page: Page;
+export class LoginPage extends BasePage {
   // Locators
   readonly usernameInput: Locator;
   readonly passwordInput: Locator;
@@ -10,8 +9,8 @@ export class LoginPage {
   readonly errorMsg: Locator;
   readonly errorCloseBtn: Locator;
 
-  constructor(page: Page) {
-    this.page = page;
+  constructor (page: Page) {
+    super(page);
     this.usernameInput = page.locator('#user-name');
     this.passwordInput = page.locator('#password');
     this.loginBtn = page.getByRole('button', { name: 'Login' });
@@ -20,11 +19,6 @@ export class LoginPage {
   }
 
   // Actions
-
-  async goto() {
-    await this.page.goto(urlData.loginPage);
-  }
-
   async enterUsername(username: string) {
     await this.usernameInput.fill(username);
   }
