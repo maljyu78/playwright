@@ -9,12 +9,11 @@ test.describe('상품페이지 기능 테스트', () => {
     const loginPage = new LoginPage(page)
 
     await loginPage.goto();
-
     await loginPage.login (
     loginData.standardUser.username,
     loginData.standardUser.password
     )
-
+    await page.waitForURL(urlData.productPage)
   });
 
   test('TCID_001_상품이름 클릭 및 상세정보 페이지 이동', async ({ page }) => {
@@ -24,6 +23,7 @@ test.describe('상품페이지 기능 테스트', () => {
       const product = productData[i];
 
       await ProductPage.gotoDetailPage(product.pageId);
+
       await expect(
         page, `[Faild] "${product.name}" 상세 페이지 이동 오류`
       ).toHaveURL(`${urlData.DetailPage}${product.pageId}`);
@@ -37,6 +37,7 @@ test.describe('상품페이지 기능 테스트', () => {
     
     await ProductPage.addToCart(product.id);
     await ProductPage.gotoCart();
+
     await expect(page).toHaveURL(urlData.CartPage);
   });
 
@@ -47,6 +48,7 @@ test.describe('상품페이지 기능 테스트', () => {
       const product =  productData[i];
 
       await ProductPage.addToCart(product.id);
+
       await expect(
         ProductPage.cartBadge,
         `[Faild] "${product.name}" 카운트 배지 개수 불일치.`
@@ -81,6 +83,77 @@ test.describe('상품페이지 기능 테스트', () => {
         ).toBeHidden();
       }
     }
+  });
+
+  test('TCID_006_버거 버튼 클릭 및 메뉴 열기', async ({ page }) => {
+    const ProductPage = new productPage(page);
+
+    await ProductPage.clickBurgerMenu();
+
+    await expect(ProductPage.bmItemList).toBeVisible();
+  });
+
+  test('TCID_007_메뉴 ALL Items 버튼 클릭 및 상품페이지 이동', async ({ page }) => {
+    const ProductPage = new productPage(page);
+
+    await ProductPage.clickBurgerMenu();
+    await ProductPage.clickAllItems();
+
+    await expect(page).toHaveURL(urlData.productPage);
+  });
+
+  test('TCID_008_메뉴 About 버튼 클릭 및 About 페이지 이동', async ({ page }) => {
+    const ProductPage = new productPage(page);
+
+    await ProductPage.clickBurgerMenu();
+    await ProductPage.clickAbout();
+
+    await expect(page).toHaveURL(urlData.aboutPage);
+  });
+
+  test('TCID_009_메뉴 Logout 동작 및 로그아웃', async ({ page }) => {
+    const ProductPage = new productPage(page);
+    const loginPage = new LoginPage(page);
+
+    await ProductPage.clickBurgerMenu();
+    await ProductPage.clickLogout();
+
+    await expect(page).toHaveURL(urlData.loginPage);
+    await expect(loginPage.usernameInput).toHaveValue('');
+    await expect(loginPage.passwordInput).toHaveValue('');
+  });
+
+  test('TCID_010_메뉴 Reset App State 버튼 클릭 및 초기화', async ({ page }) => {
+    const ProductPage = new productPage(page);
+
+    for (let i = 0; i < productData.length; i++) {
+      const product =  productData[i];
+
+      await ProductPage.addToCart(product.id);
+    }
+
+    await ProductPage.clickBurgerMenu();
+    await ProductPage.clickResetAppState();
+
+    await expect(ProductPage.cartBadge).toBeHidden();
+
+    for (let i = 0; i < productData.length; i++) {
+      const product =  productData[i];
+
+      await expect(
+        ProductPage.getAddToCartBtn(product.id),
+        `[Faild] "${product.name}" 상품담기 버튼 초기화 실패.` // TEST-001 이슈 등록됨
+      ).toBeVisible();
+    }
+  });
+
+  test('TCID_012_메뉴 Close 버튼 클릭 및 메뉴 닫기', async ({ page }) => {
+    const ProductPage = new productPage(page);
+
+    await ProductPage.clickBurgerMenu();
+    await ProductPage.clickCloseMenu();
+
+    await expect(ProductPage.bmItemList).toBeHidden();
   });
 
 });

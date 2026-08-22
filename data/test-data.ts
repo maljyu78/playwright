@@ -3,6 +3,7 @@ export const urlData = {
   productPage: 'https://www.saucedemo.com/inventory.html',
   CartPage: 'https://www.saucedemo.com/cart.html',
   DetailPage: 'https://www.saucedemo.com/inventory-item.html?id=',
+  aboutPage: 'https://saucelabs.com/',
 };
 
 export const loginData = {
