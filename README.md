@@ -17,13 +17,13 @@
 주요 파일 구조
 
 data
-  > test-data.ts
+- test-data.ts
 
 pages
-  > base.ts
-  > login.ts
-  > product.ts
+- base.ts
+- login.ts
+- product.ts
 
 tests
-  > loginPageTest.spec.ts
-  > productPageTest.spec.ts
+- loginPageTest.spec.ts
+- productPageTest.spec.ts
