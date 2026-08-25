@@ -22,14 +22,28 @@ test.describe('상품페이지 기능 테스트', () => {
     for (let i = 0; i < productData.length; i++) {
       const product = productData[i];
 
-      await productPage.gotoDetailPage(product.pageId);
+      await productPage.clickProductName(product.pageId);
 
       await expect(
         page, `[Faild] "${product.name}" 상세 페이지 이동 오류`
       ).toHaveURL(`${urlData.DetailPage}${product.pageId}`);
       await page.goBack();
     }
-  });
+  }); 
+  test('TCID_002_상품이미지 클릭 및 상세정보 페이지 이동', async ({ page }) => {
+    const productPage = new ProductPage(page);
+
+    for (let i = 0; i < productData.length; i++) {
+      const product = productData[i];
+
+      await productPage.clickProductImg(product.pageId);
+
+      await expect(
+        page, `[Faild] "${product.name}" 상세 페이지 이동 오류`
+      ).toHaveURL(`${urlData.DetailPage}${product.pageId}`);
+      await page.goBack();
+  }
+  });// 상품 이미지 클릭 및 상세정보 페이지 이동 케이스 생성 필요
 
   test('TCID_003_장바구니 아이콘 클릭 및 장바구니 페이지 이동', async ({ page }) => {
     const productPage = new ProductPage(page);
@@ -147,7 +161,7 @@ test.describe('상품페이지 기능 테스트', () => {
     }
   });
 
-  test('TCID_012_메뉴 Close 버튼 클릭 및 메뉴 닫기', async ({ page }) => {
+  test('TCID_011_메뉴 Close 버튼 클릭 및 메뉴 닫기', async ({ page }) => {
     const productPage = new ProductPage(page);
 
     await productPage.clickBurgerMenu();
@@ -156,7 +170,7 @@ test.describe('상품페이지 기능 테스트', () => {
     await expect(productPage.bmItemList).toBeHidden();
   });
 
-  test('TCID_013_필터 기능 테스트', async ({ page }) => {
+  test('TCID_012_필터 기능 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const failure: string[] = [];
 

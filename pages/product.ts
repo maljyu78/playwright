@@ -41,11 +41,15 @@ export class ProductPage extends BasePage {
     await this.cartBadge.click();
   }
 
-  async gotoDetailPage(pageId: string) {
+  async clickProductName(pageId: string) {
     const productNameLnk = this.page.locator(`[data-test = "item-${pageId}-title-link"]`);
     await productNameLnk.click();
   }
 
+  async clickProductImg(pageId: string){
+    const productNameLnk = this.page.locator(`[data-test = "item-${pageId}-img-link"]`);
+    await productNameLnk.click();
+  }
   getAddToCartBtn(productId: string) {
     return this.page.locator(`[data-test = "add-to-cart-${productId}"]`);
   }
