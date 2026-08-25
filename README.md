@@ -1,5 +1,5 @@
 # playwright-tutorial
-- 목적 : SauceDemo 페이지를 활용한 POM(Page Object Model) 기반 테스트 자동화 설계
+- 목적 : SauceDemo 페이지 대상으로 POM(Page Object Model) 기반 테스트 자동화 설계
 
 - 언어 및 프레임워크 : Playwright (TypeScript), Node.js
 - 인프라 및 AI : Generative AI, GitHub Actions, Slack Webhook
