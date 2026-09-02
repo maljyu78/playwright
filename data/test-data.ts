@@ -4,6 +4,7 @@ export const urlData = {
   CartPage: 'https://www.saucedemo.com/cart.html',
   DetailPage: 'https://www.saucedemo.com/inventory-item.html?id=',
   aboutPage: 'https://saucelabs.com/',
+  checkoutInfoPage: 'https://www.saucedemo.com/checkout-step-one.html'
 };
 
 export const loginData = {

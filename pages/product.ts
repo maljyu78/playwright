@@ -1,44 +1,34 @@
 import { type Locator, type Page } from '@playwright/test';
+import { BurgerMenu } from './components/burgermenu';
 import { BasePage } from './base';
 
 export class ProductPage extends BasePage {
   // Locators
-
+  readonly burgerMenu: BurgerMenu;
   readonly pageTitle: Locator;
   readonly productItem: Locator;
   readonly productName: Locator;
   readonly cartBadge: Locator;
-  readonly burgerMenuBtn: Locator;
-  readonly bmItemList: Locator;
-  readonly allItemsBtn: Locator;
-  readonly aboutBtn: Locator;
-  readonly logoutBtn: Locator;
-  readonly resetAppStateBtn: Locator;
-  readonly closeMenuBtn: Locator;
+  readonly cartBtn: Locator;
   readonly filterBtn: Locator;
 
   constructor(page: Page) {
     super(page);
+    
+    this.burgerMenu = new BurgerMenu(this.page);
     this.pageTitle = page.locator('.title');
     this.productItem = page.locator('.inventory_item');
     this.productName = page.locator('.inventory_item_name')
     this.cartBadge = page.locator('.shopping_cart_badge');
-    this.burgerMenuBtn = page.locator('.bm-burger-button');
-    this.bmItemList = page.locator('.bm-item-list');
-    this.allItemsBtn = page.locator('#inventory_sidebar_link');
-    this.aboutBtn = page.locator('#about_sidebar_link');
-    this.logoutBtn = page.locator('#logout_sidebar_link');
-    this.resetAppStateBtn = page.locator('#reset_sidebar_link');
-    this.closeMenuBtn = page.locator('#react-burger-cross-btn');
+    this.cartBtn = page.locator('[data-test="shopping-cart-link"]');
     this.filterBtn = page.locator('.product_sort_container')
 
 
   }
 
-
   // Actions
   async gotoCart() {
-    await this.cartBadge.click();
+    await this.cartBtn.click();
   }
 
   async clickProductName(pageId: string) {
@@ -66,31 +56,6 @@ export class ProductPage extends BasePage {
   async rmFromCart(productId: string) {
     const rmCartBtn = this.getRmFromCartBtn(productId);
     await rmCartBtn.click();
-  }
-
-  async clickBurgerMenu() {
-    await this.burgerMenuBtn.waitFor({ state: 'visible' });
-    await this.burgerMenuBtn.click();
-  }
-
-  async clickAllItems() {
-    await this.allItemsBtn.click();
-  }
-
-  async clickAbout() {
-    await this.aboutBtn.click();
-  }
-
-  async clickLogout() {
-    await this.logoutBtn.click();
-  }
-
-  async clickResetAppState() {
-    await this.resetAppStateBtn.click();
-  }
-
-  async clickCloseMenu() {
-    await this.closeMenuBtn.click();
   }
   
   async clickFilterBtn(value: string) {
