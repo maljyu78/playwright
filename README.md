@@ -21,10 +21,14 @@ data
 - test-data.ts
 
 pages
+- components
+  - burgerMenu.ts
 - base.ts
+- cart.ts
 - login.ts
 - product.ts
 
 tests
+- cartPageTest.spec.ts
 - loginPageTest.spec.ts
 - productPageTest.spec.ts
