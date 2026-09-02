@@ -29,7 +29,6 @@ jobs:
 
       - name: Run Playwright tests
         id: playwright
-        continue-on-error: true
         run: npx playwright test
 
       - name: Upload Playwright report
