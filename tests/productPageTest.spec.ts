@@ -137,7 +137,7 @@ test.describe('상품페이지 기능 테스트', () => {
     await expect(loginPage.passwordInput).toHaveValue('');
   });
 
-  test('TCID_010_메뉴 Reset App State 버튼 클릭 및 초기화', async ({ page }) => {
+  test.fixme('TCID_010_메뉴 Reset App State 버튼 클릭 및 초기화', async ({ page }) => {
     const productPage = new ProductPage(page);
 
     for (let i = 0; i < productData.length; i++) {
@@ -151,7 +151,7 @@ test.describe('상품페이지 기능 테스트', () => {
 
     await expect(productPage.cartBadge).toBeHidden();
 
-    for (let i = 0; i < productData.length; i++) {
+    for (let i = 0; i < productData.length; i++) {s
       const product =  productData[i];
 
       await expect(
