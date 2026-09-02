@@ -1,5 +1,5 @@
 import { type Locator, type Page } from '@playwright/test';
-import { BurgerMenu } from './components/burgermenu';
+import { BurgerMenu } from './components/burgerMenu';
 import { BasePage } from './base';
 
 export class ProductPage extends BasePage {

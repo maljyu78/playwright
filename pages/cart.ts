@@ -1,6 +1,6 @@
 import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './base';
-import { BurgerMenu } from './components/burgermenu';
+import { BurgerMenu } from './components/burgerMenu';
 
 export class CartPage extends BasePage {
     // Locators
