@@ -25,10 +25,12 @@ pages
   - burgerMenu.ts
 - base.ts
 - cart.ts
+- checkout.ts
 - login.ts
 - product.ts
 
 tests
 - cartPageTest.spec.ts
+- checkoutPageTest.spec.ts
 - loginPageTest.spec.ts
 - productPageTest.spec.ts
