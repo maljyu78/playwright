@@ -5,7 +5,7 @@ import { CartPage } from '../pages/cart';
 import { urlData, productData, loginData } from '../data/test-data';
 
 test.describe('장바구니 페이지 기능 테스트', () => {
-    test.beforeEach (async ({ page }) => {
+  test.beforeEach (async ({ page }) => {
     const loginPage = new LoginPage(page)
 
     await loginPage.goto();
@@ -16,7 +16,7 @@ test.describe('장바구니 페이지 기능 테스트', () => {
     await page.waitForURL(urlData.productPage);
   });
 
-    test.fixme('TCID_001_장바구니 페이지 콜드 케이스', async ({ page }) => {
+  test.fixme('TCID_001_장바구니 페이지 콜드 케이스', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 

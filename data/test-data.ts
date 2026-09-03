@@ -4,7 +4,8 @@ export const urlData = {
   CartPage: 'https://www.saucedemo.com/cart.html',
   DetailPage: 'https://www.saucedemo.com/inventory-item.html?id=',
   aboutPage: 'https://saucelabs.com/',
-  checkoutInfoPage: 'https://www.saucedemo.com/checkout-step-one.html'
+  checkoutInfoPage: 'https://www.saucedemo.com/checkout-step-one.html',
+  checkoutOverviewPage: 'https://www.saucedemo.com/checkout-step-two.html',
 };
 
 export const loginData = {
@@ -41,6 +42,9 @@ export const productData = [
 
 export const errorContent = {
   invalidCredentials: 'Epic sadface: Username and password do not match any user in this service',
+  errorFirstName: 'Error: First Name is required',
+  errorLastName: 'Error: Last Name is required',
+  errorPostalCode: 'Error: Postal Code is required',
 };
 
 export const filterData = [
@@ -48,4 +52,16 @@ export const filterData = [
   { name: 'Z to A', value: 'za'},
   { name: 'Price (low to high)', value: 'lohi'},
   { name: 'Price (high to low)', value: 'hilo'},
+]
+
+export const PassCheckoutData = {
+  firstName: 'Shin',
+  lastName: 'Jinyong',
+  postalCode: '12345',
+}
+
+export const FailCheckoutData = [
+  { firstName: '',lastName: 'Jinyong',postalCode: '12345' },
+  { firstName: 'Shin',lastName: '',postalCode: '12345' },
+  { firstName: 'Shin',lastName: 'Jinyong',postalCode: '' },
 ]
