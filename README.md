@@ -12,7 +12,8 @@
 - 상품 페이지 기능테스트 스크립트 작성완료
 - Gen AI를 활용하여 GitHub Actions CI 기본 파이프라인 연동 및 Slack Webhook을 통한 테스트 결과 전송
 - 테스트 중 발견한 결함은 GitHub Issues 탭에 등록
-- (진행예정) 장바구니 페이지 기능테스트 스크립트 작성예정
+- 장바구니 페이지 기능테스트 스크립트 작성완료
+- 결제 페이지 기능 테스트 스크립트 작성예정
 
 [주요 파일 구조]
 
@@ -20,10 +21,14 @@ data
 - test-data.ts
 
 pages
+- components
+  - burgerMenu.ts
 - base.ts
+- cart.ts
 - login.ts
 - product.ts
 
 tests
+- cartPageTest.spec.ts
 - loginPageTest.spec.ts
 - productPageTest.spec.ts
