@@ -33,15 +33,15 @@ export class OverviewPage extends BasePage {
     }
 
     // Actions
-    async getItemCount (): Promise < number > {
+    async getItemCount(): Promise < number > {
         return await this.itemList.count();
     }
 
-    async getItemName (): Promise < string[] > {
+    async getItemName(): Promise < string[] > {
         return await this.itemName.allTextContents();
     }
 
-    async getItemPrice (): Promise < number[] > {
+    async getItemPrice(): Promise < number[] > {
         const itemPrice = await this.itemPrice.allTextContents();
         if (itemPrice.length === 0) {
             return [0];
@@ -51,7 +51,7 @@ export class OverviewPage extends BasePage {
         }
     }
 
-    async getItemTax (): Promise < number[] > {
+    async getItemTax(): Promise < number[] > {
         const itemTax = await this.itemTax.allTextContents();
 
         if (itemTax.length === 0) {
@@ -62,7 +62,7 @@ export class OverviewPage extends BasePage {
         }
     }
 
-    async getItemTotal (): Promise < number[] > {
+    async getItemTotal(): Promise < number[] > {
         const itemTotal = await this.itemTotal.allTextContents();
         if (itemTotal.length === 0) {
             return [0];
@@ -72,7 +72,7 @@ export class OverviewPage extends BasePage {
         }
     }
 
-    async getTotalPrice (): Promise < number[] > {
+    async getTotalPrice(): Promise < number[] > {
         const totalPrice = await this.total.allTextContents();
         if (totalPrice.length === 0) {
             return [0];
@@ -82,15 +82,15 @@ export class OverviewPage extends BasePage {
         }
     }
 
-    async clickCancel () {
+    async clickCancel() {
         await this.cancelBtn.click();
     }
 
-    async clickFinish () {
+    async clickFinish() {
         await this.finishBtn.click();
     }
 
-    async getTax (productPrice: number) {
+    async getTax(productPrice: number) {
         const taxRate = 0.08;
         const tax = productPrice * taxRate;
 

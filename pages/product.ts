@@ -21,7 +21,7 @@ export class ProductPage extends BasePage {
   }
 
   // Actions
-  async getProductNames () : Promise < string[] > {
+  async getProductNames() : Promise < string[] > {
     return await this.productName.allTextContents();
   }
   async clickProductName(pageId: string) {

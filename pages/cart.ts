@@ -23,6 +23,24 @@ export class CartPage extends BasePage {
     }
 
     // Actions
+    async getItemCount(): Promise < number > {
+        const count = await this.cartItem.count();
+        return count
+    }
+    async getCheckoutBtnStatus(): Promise < boolean > {
+        const status = await this.checkoutBtn.isEnabled();
+        return status
+    }
+
+    async getContinueShoppingBtnStatus(): Promise < boolean > {
+        const status = await this.continueShoppingBtn.isEnabled();
+        return status
+    }
+    async getRemoveBtnStatus(): Promise < boolean > {
+        const status = await this.removeBtn.isVisible();
+        return status
+    }
+
     async clickCheckout() {
         await this.checkoutBtn.click();
     }

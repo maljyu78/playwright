@@ -19,20 +19,20 @@ export class CompletePage extends BasePage {
     }
 
     // Actions
-    async clickBackHome () {
+    async clickBackHome() {
         await this.backHomeBtn.click();
     }
 
-    async clickGeneratePDF () {
+    async clickGeneratePDF() {
         await this.genPDForderBtn.click();
     }
 
-    async getDownloadEvent () {
+    async getDownloadEvent() {
         const downloadEvent = await this.page.waitForEvent('download');
         return downloadEvent;
     }
 
-    async getDownloadFileName (download: any) {
+    async getDownloadFileName(download: any) {
         const fileName = download.suggestedFilename();
 
         return fileName;

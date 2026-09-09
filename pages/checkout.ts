@@ -27,7 +27,7 @@ export class CheckoutPage extends BasePage {
     }
 
     // Actions
-    async getErrorMsgContext () {
+    async getErrorMsgContext() {
         return await this.errorMessage.allTextContents();
     }
     
