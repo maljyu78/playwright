@@ -3,11 +3,11 @@ import { BasePage } from './base';
 
 export class LoginPage extends BasePage {
   // Locators
-  readonly usernameInput: Locator;
-  readonly passwordInput: Locator;
-  readonly loginBtn: Locator;
-  readonly errorMsg: Locator;
-  readonly errorCloseBtn: Locator;
+  private readonly usernameInput: Locator;
+  private readonly passwordInput: Locator;
+  private readonly loginBtn: Locator;
+  private readonly errorMsg: Locator;
+  private readonly errorCloseBtn: Locator;
 
   constructor (page: Page) {
     super(page);
@@ -19,6 +19,14 @@ export class LoginPage extends BasePage {
   }
 
   // Actions
+  async usernameStatus(): Promise < string | null > {
+    return await this.usernameInput.textContent();
+  }
+
+  async passwordStatus(): Promise < string | null > {
+    return await this.passwordInput.textContent();
+  }
+
   async enterUsername(username: string) {
     await this.usernameInput.fill(username);
   }
@@ -33,6 +41,14 @@ export class LoginPage extends BasePage {
     await this.enterUsername(username);
     await this.enterPassword(password);
     await this.clickLogin();
+  }
+
+  async errorMsgContext(): Promise < string | null > {
+    return await this.errorMsg.textContent();
+  }
+
+  async errorMsgStatus(): Promise < boolean > {
+    return await this.errorMsg.isVisible();
   }
 
   async errorCloseBtnClick() {

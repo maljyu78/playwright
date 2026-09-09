@@ -16,11 +16,11 @@ test.describe('장바구니 페이지 기능 테스트', () => {
     await page.waitForURL(urlData.productPage);
   });
 
-  test.fixme('TCID_001_장바구니 페이지 콜드 케이스', async ({ page }) => {
+  test.fixme('TCID_001_장바구니 페이지 콜드 케이스 확인', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
 
     await expect.soft(cartPage.cartItem).toHaveCount(0);
     await expect.soft(cartPage.checkoutBtn).toBeDisabled();
@@ -28,29 +28,29 @@ test.describe('장바구니 페이지 기능 테스트', () => {
     await expect.soft(cartPage.removeBtn).toBeHidden();
   }); // TEST-002 이슈 등록 완료
 
-  test('TCID_002_콜드 케이스 쇼핑 페이지 이동', async ({ page }) => {
+  test('TCID_002_콜드 케이스/쇼핑 페이지 이동 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
 
     await cartPage.clickContinueShopping();
 
     await expect(page).toHaveURL(urlData.productPage);
   });
 
-  test.fixme('TCID_003_콜드 케이스 체크아웃 페이지 이동', async ({ page }) => {
+  test.fixme('TCID_003_콜드 케이스/체크아웃 페이지 이동 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
 
     await cartPage.clickCheckout();
 
     await expect(page).toHaveURL(urlData.productPage);
   }); // TEST-002 연계 이슈 (체크아웃 버튼 활성화 유지되는 현상)
 
-  test('TCID_004_장바구니 페이지 상품 담기', async ({ page }) => {
+  test('TCID_004_장바구니 상품 담기 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 
@@ -58,7 +58,7 @@ test.describe('장바구니 페이지 기능 테스트', () => {
       const product =  productData[i];
 
       await productPage.addToCart(product.id);
-      await productPage.gotoCart();
+      await productPage.cartBadge.gotoCart();
 
       await expect(
         cartPage.cartItem,
@@ -69,7 +69,7 @@ test.describe('장바구니 페이지 기능 테스트', () => {
     }
   });
   
-  test('TCID_005_장바구니 페이지 상품 제거', async ({ page }) => {
+  test('TCID_005_장바구니 상품 제거 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 
@@ -77,42 +77,42 @@ test.describe('장바구니 페이지 기능 테스트', () => {
       const product =  productData[i];
 
       await productPage.addToCart(product.id);
-      await productPage.gotoCart();
+      await productPage.cartBadge.gotoCart();
 
       await cartPage.clickRemove();
       await page.goBack();
     }
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
     await expect.soft(cartPage.cartItem).toHaveCount(0);
   });
 
-  test('TCID_006_상품 담긴 상태 쇼핑 페이지 이동', async ({ page }) => {
+  test('TCID_006_상품 담긴 상태/쇼핑 페이지 이동 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
     const product = productData[0];
 
     await productPage.addToCart(product.id);
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
 
     await cartPage.clickContinueShopping();
 
     await expect(page).toHaveURL(urlData.productPage);
   });
 
-  test('TCID_007_상품 담긴 상태 체크아웃 페이지 이동', async ({ page }) => {
+  test('TCID_007_상품 담긴 상태/체크아웃 페이지 이동 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
     const product = productData[0];
 
     await productPage.addToCart(product.id);
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
 
     await cartPage.clickCheckout();
 
     await expect(page).toHaveURL(urlData.checkoutInfoPage);
   });
 
-  test('TCID_008_상품 담긴 상태 상세정보 페이지 이동', async ({ page }) => {
+  test('TCID_008_상품 담긴 상태/상세정보 페이지 이동 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 
@@ -120,7 +120,7 @@ test.describe('장바구니 페이지 기능 테스트', () => {
       const product = productData[i];
 
       await productPage.addToCart(product.id);
-      await productPage.gotoCart();
+      await productPage.cartBadge.gotoCart();
 
       await cartPage.clickItemName(product.pageId);
 
@@ -133,22 +133,22 @@ test.describe('장바구니 페이지 기능 테스트', () => {
     }
   });
 
-  test('TCID_009_버거 버튼 클릭 및 메뉴 열기', async ({ page }) => {
+  test('TCID_009_버거 메뉴 진입 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
 
     await cartPage.burgerMenu.clickBurgerMenu();
 
     await expect(cartPage.burgerMenu.bmItemList).toBeVisible();
   });
 
-  test('TCID_010_메뉴 ALL Items 버튼 클릭 및 상품페이지 이동', async ({ page }) => {
+  test('TCID_010_ALL Items 버튼 기능 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
 
     await cartPage.burgerMenu.clickBurgerMenu();
     await cartPage.burgerMenu.clickAllItems();
@@ -156,11 +156,11 @@ test.describe('장바구니 페이지 기능 테스트', () => {
     await expect(page).toHaveURL(urlData.productPage);
   });
 
-  test('TCID_011_메뉴 About 버튼 클릭 및 About 페이지 이동', async ({ page }) => {
+  test('TCID_011_About 버튼 기능 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
 
     await cartPage.burgerMenu.clickBurgerMenu();
     await cartPage.burgerMenu.clickAbout();
@@ -168,12 +168,12 @@ test.describe('장바구니 페이지 기능 테스트', () => {
     await expect(page).toHaveURL(urlData.aboutPage);
   });
 
-  test('TCID_012_메뉴 Logout 동작 및 로그아웃', async ({ page }) => {
+  test('TCID_012_Logout 버튼 기능 테스트', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
 
     await cartPage.burgerMenu.clickBurgerMenu();
     await cartPage.burgerMenu.clickLogout();
@@ -183,7 +183,7 @@ test.describe('장바구니 페이지 기능 테스트', () => {
     await expect(loginPage.passwordInput).toHaveValue('');
   });
 
-  test.fixme('TCID_013_메뉴 Reset App State 버튼 클릭 및 초기화', async ({ page }) => {
+  test.fixme('TCID_013_Reset App State 버튼 기능 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 
@@ -193,20 +193,20 @@ test.describe('장바구니 페이지 기능 테스트', () => {
       await productPage.addToCart(product.id);
     }
 
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
 
     await cartPage.burgerMenu.clickBurgerMenu();
     await cartPage.burgerMenu.clickResetAppState();
 
-    await expect.soft(cartPage.cartBadge).toBeHidden();
+    await expect.soft(cartPage.cartBadge.countBadge).toBeHidden();
     await expect.soft(cartPage.cartItem).toHaveCount(0); // TEST-001 이슈 등록 완료
   });
 
-  test('TCID_014_메뉴 Close 버튼 클릭 및 메뉴 닫기', async ({ page }) => {
+  test('TCID_014_Close 버튼 기능 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const cartPage = new CartPage(page);
 
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
     await cartPage.burgerMenu.clickBurgerMenu();
     await cartPage.burgerMenu.clickCloseMenu();
 

@@ -16,7 +16,7 @@ test.describe('상품페이지 기능 테스트', () => {
     await page.waitForURL(urlData.productPage);
   });
 
-  test('TCID_001_상품이름 클릭 및 상세정보 페이지 이동', async ({ page }) => {
+  test('TCID_001_상품이름 클릭 및 상세정보 페이지 이동 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
 
     for (let i = 0; i < productData.length; i++) {
@@ -30,7 +30,7 @@ test.describe('상품페이지 기능 테스트', () => {
       await page.goBack();
     }
   }); 
-  test('TCID_002_상품이미지 클릭 및 상세정보 페이지 이동', async ({ page }) => {
+  test('TCID_002_상품이미지 클릭 및 상세정보 페이지 이동 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
 
     for (let i = 0; i < productData.length; i++) {
@@ -43,19 +43,19 @@ test.describe('상품페이지 기능 테스트', () => {
       ).toHaveURL(`${urlData.DetailPage}${product.pageId}`);
       await page.goBack();
   }
-  });// 상품 이미지 클릭 및 상세정보 페이지 이동 케이스 생성 필요
+  });
 
-  test('TCID_003_장바구니 아이콘 클릭 및 장바구니 페이지 이동', async ({ page }) => {
+  test('TCID_003_장바구니 버튼 기능 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const product = productData[0];
     
     await productPage.addToCart(product.id);
-    await productPage.gotoCart();
+    await productPage.cartBadge.gotoCart();
 
     await expect(page).toHaveURL(urlData.CartPage);
   });
 
-  test('TCID_004_상품담기 및 카운트배지 동기화', async ({ page }) => {
+  test('TCID_004_상품담기/카운트배지 동기화 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
 
     for (let i = 0; i < productData.length; i++) {
@@ -64,13 +64,13 @@ test.describe('상품페이지 기능 테스트', () => {
       await productPage.addToCart(product.id);
 
       await expect(
-        productPage.cartBadge,
+        productPage.cartBadge.countBadge,
         `[Fail] "${product.name}" 카운트 배지 개수 불일치.`
       ).toHaveText(String (i+1));
     }
   });
 
-  test('TCID_005_상품빼기 및 카운트배지 동기화', async ({ page }) => {
+  test('TCID_005_상품빼기/카운트배지 동기화 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
 
     for (let i = 0; i < productData.length; i++) {
@@ -87,19 +87,19 @@ test.describe('상품페이지 기능 테스트', () => {
 
       if (cartBageCount > 0) {
         await expect(
-          productPage.cartBadge,
+          productPage.cartBadge.countBadge,
           `[Fail] "${product.name}" 카운트 배지 개수 불일치.`
         ).toHaveText(String (cartBageCount));
       }else {
         await expect(
-          productPage.cartBadge,
+          productPage.cartBadge.countBadge,
           `[Fail] "${product.name}" 카운트 배지 개수 불일치.`
         ).toBeHidden();
       }
     }
   });
 
-  test('TCID_006_버거 버튼 클릭 및 메뉴 열기', async ({ page }) => {
+  test('TCID_006_버거 메뉴 진입 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
 
     await productPage.burgerMenu.clickBurgerMenu();
@@ -107,7 +107,7 @@ test.describe('상품페이지 기능 테스트', () => {
     await expect(productPage.burgerMenu.bmItemList).toBeVisible();
   });
 
-  test('TCID_007_메뉴 ALL Items 버튼 클릭 및 상품페이지 이동', async ({ page }) => {
+  test('TCID_007_ALL Items 버튼 기능 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
 
     await productPage.burgerMenu.clickBurgerMenu();
@@ -116,7 +116,7 @@ test.describe('상품페이지 기능 테스트', () => {
     await expect(page).toHaveURL(urlData.productPage);
   });
 
-  test('TCID_008_메뉴 About 버튼 클릭 및 About 페이지 이동', async ({ page }) => {
+  test('TCID_008_About 버튼 기능 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
 
     await productPage.burgerMenu.clickBurgerMenu();
@@ -125,19 +125,24 @@ test.describe('상품페이지 기능 테스트', () => {
     await expect(page).toHaveURL(urlData.aboutPage);
   });
 
-  test('TCID_009_메뉴 Logout 동작 및 로그아웃', async ({ page }) => {
+  test('TCID_009_Logout 버튼 기능 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
     const loginPage = new LoginPage(page);
+    let usernameText
+    let passwordText
 
     await productPage.burgerMenu.clickBurgerMenu();
     await productPage.burgerMenu.clickLogout();
 
+    usernameText = await loginPage.usernameStatus();
+    passwordText = await loginPage.passwordStatus();
+
     await expect(page).toHaveURL(urlData.loginPage);
-    await expect(loginPage.usernameInput).toHaveValue('');
-    await expect(loginPage.passwordInput).toHaveValue('');
+    await expect(usernameText).toBe('');
+    await expect(passwordText).toBe('');
   });
 
-  test.fixme('TCID_010_메뉴 Reset App State 버튼 클릭 및 초기화', async ({ page }) => {
+  test.fixme('TCID_010_Reset App State 버튼 기능 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
 
     for (let i = 0; i < productData.length; i++) {
@@ -149,7 +154,7 @@ test.describe('상품페이지 기능 테스트', () => {
     await productPage.burgerMenu.clickBurgerMenu();
     await productPage.burgerMenu.clickResetAppState();
 
-    await expect(productPage.cartBadge).toBeHidden();
+    await expect(productPage.cartBadge.countBadge).toBeHidden();
 
     for (let i = 0; i < productData.length; i++) {
       const product =  productData[i];
@@ -161,7 +166,7 @@ test.describe('상품페이지 기능 테스트', () => {
     }
   });
 
-  test('TCID_011_메뉴 Close 버튼 클릭 및 메뉴 닫기', async ({ page }) => {
+  test('TCID_011_Close 버튼 기능 테스트', async ({ page }) => {
     const productPage = new ProductPage(page);
 
     await productPage.burgerMenu.clickBurgerMenu();
@@ -180,7 +185,7 @@ test.describe('상품페이지 기능 테스트', () => {
 
         await productPage.clickFilterBtn(filter.value);
 
-        const actualTexts = await productPage.productName.allTextContents();
+        const actualTexts = await productPage.getProductNames();
 
         switch (filter.value) {
           case 'az' :

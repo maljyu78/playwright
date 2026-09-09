@@ -1,36 +1,29 @@
 import { type Locator, type Page } from '@playwright/test';
-import { BurgerMenu } from './components/burgerMenu';
+import { BurgerMenu, CartBadge } from './components/header';
 import { BasePage } from './base';
 
 export class ProductPage extends BasePage {
   // Locators
   readonly burgerMenu: BurgerMenu;
-  readonly pageTitle: Locator;
-  readonly productItem: Locator;
-  readonly productName: Locator;
-  readonly cartBadge: Locator;
-  readonly cartBtn: Locator;
-  readonly filterBtn: Locator;
+  readonly cartBadge: CartBadge;
+  private readonly productName: Locator;
+  private readonly filterBtn: Locator;
 
   constructor(page: Page) {
     super(page);
     
     this.burgerMenu = new BurgerMenu(this.page);
-    this.pageTitle = page.locator('.title');
-    this.productItem = page.locator('.inventory_item');
+    this.cartBadge = new CartBadge(this.page);
     this.productName = page.locator('.inventory_item_name')
-    this.cartBadge = page.locator('.shopping_cart_badge');
-    this.cartBtn = page.locator('[data-test="shopping-cart-link"]');
     this.filterBtn = page.locator('.product_sort_container')
 
 
   }
 
   // Actions
-  async gotoCart() {
-    await this.cartBtn.click();
+  async getProductNames () : Promise < string[] > {
+    return await this.productName.allTextContents();
   }
-
   async clickProductName(pageId: string) {
     const productNameLnk = this.page.locator(`[data-test = "item-${pageId}-title-link"]`);
     await productNameLnk.click();

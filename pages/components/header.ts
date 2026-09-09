@@ -1,6 +1,7 @@
 import { type Locator, type Page } from '@playwright/test';
 
 export class BurgerMenu  {
+  // Locators
     public page: Page;
     private readonly burgerMenuBtn: Locator;
     public readonly bmItemList: Locator;
@@ -20,6 +21,8 @@ export class BurgerMenu  {
         this.resetAppStateBtn = page.locator('[data-test="reset-sidebar-link"]');
         this.closeMenuBtn = page.locator('.bm-cross-button');
     }
+
+  // Actions
   async clickBurgerMenu() {
     await this.burgerMenuBtn.waitFor({ state: 'visible' });
     await this.burgerMenuBtn.click();
@@ -48,6 +51,25 @@ export class BurgerMenu  {
   async clickCloseMenu() {
     await this.closeMenuBtn.waitFor({ state: 'visible' });
     await this.closeMenuBtn.click();
+  }
+
+}
+
+export class CartBadge {
+  // Locators
+  public page: Page;
+  public readonly countBadge: Locator;
+  private readonly cartBtn: Locator;
+
+  constructor(page: Page) {
+    this.page = page;
+    this.countBadge = page.locator('.shopping_cart_badge');
+    this.cartBtn = page.locator('[data-test="shopping-cart-link"]');
+  }
+
+  // Actions
+  async gotoCart() {
+    await this.cartBtn.click();
   }
 
 }
