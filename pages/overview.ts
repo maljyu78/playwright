@@ -34,15 +34,28 @@ export class OverviewPage extends BasePage {
 
     // Actions
     async getItemCount(): Promise < number > {
+        await this.itemList.first().waitFor({
+            state: 'visible',
+        });
+
         return await this.itemList.count();
     }
 
     async getItemName(): Promise < string[] > {
+        await this.itemName.first().waitFor({
+            state: 'visible',
+        });
+
         return await this.itemName.allTextContents();
     }
 
     async getItemPrice(): Promise < number[] > {
+        await this.itemPrice.first().waitFor({
+            state: 'visible',
+        });
+
         const itemPrice = await this.itemPrice.allTextContents();
+
         if (itemPrice.length === 0) {
             return [0];
         }
@@ -52,6 +65,10 @@ export class OverviewPage extends BasePage {
     }
 
     async getItemTax(): Promise < number[] > {
+        await this.itemTax.first().waitFor({
+            state: 'visible',
+        });
+        
         const itemTax = await this.itemTax.allTextContents();
 
         if (itemTax.length === 0) {
@@ -63,7 +80,12 @@ export class OverviewPage extends BasePage {
     }
 
     async getItemTotal(): Promise < number[] > {
+        await this.itemTotal.first().waitFor({
+            state: 'visible',
+        });
+
         const itemTotal = await this.itemTotal.allTextContents();
+
         if (itemTotal.length === 0) {
             return [0];
         }
@@ -73,7 +95,12 @@ export class OverviewPage extends BasePage {
     }
 
     async getTotalPrice(): Promise < number[] > {
+        await this.total.first().waitFor({
+            state: 'visible',
+        });
+
         const totalPrice = await this.total.allTextContents();
+
         if (totalPrice.length === 0) {
             return [0];
         }

@@ -24,9 +24,16 @@ export class CartPage extends BasePage {
 
     // Actions
     async getItemCount(): Promise < number > {
-        const count = await this.cartItem.count();
-        return count
+        return await this.cartItem.count();
     }
+
+    async getAddedItemCount(): Promise < number > {
+        await this.cartItem.first().waitFor({
+            state: 'visible',
+        });
+        return await this.cartItem.count();
+    }
+
     async getCheckoutBtnStatus(): Promise < boolean > {
         const status = await this.checkoutBtn.isEnabled();
         return status

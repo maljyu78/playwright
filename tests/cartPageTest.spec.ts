@@ -70,7 +70,7 @@ test.describe('장바구니 페이지 기능 테스트', () => {
       await productPage.addToCart(product.id);
       await productPage.cartBadge.gotoCart();
 
-      itemCount = await cartPage.getItemCount();
+      itemCount = await cartPage.getAddedItemCount();
 
       await expect(
         itemCount,
